@@ -5,8 +5,8 @@ driver = webdriver.Chrome(r"C:\Users\kfits\Downloads\chromedriver_win32\chromedr
 driver.implicitly_wait(3)
 
 driver.get('https://nid.naver.com/nidlogin.login')
-driver.find_element_by_name('id').send_keys('yahowhk')
-driver.find_element_by_name('pw').send_keys('Woo776f6')
+driver.find_element_by_name('id').send_keys('myID')
+driver.find_element_by_name('pw').send_keys('myPW')
 driver.find_element_by_xpath(
     '//*[@id="frmNIDLogin"]/fieldset/input').click()
 driver.find_element_by_xpath(
