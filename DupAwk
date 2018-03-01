@@ -1,0 +1,34 @@
+awk 'BEGIN{n=1;fEqual=0;}{
+ idx = n;
+ nf = 1;
+ midLst[ idx ] = sprintf("%s", $nf);
+
+ for( nf = 2; nf <= NF; nf++ )
+ { 
+   cmpA = sprintf("%s", $nf);
+   for( tnf = 2; tnf <= (nf-1); tnf++ )
+   { 
+     cmpB = sprintf("%s", $tnf);
+     
+     printf("check point ...M[%s] CMP[%d:%s][%d:%s]",
+       midLst[idx], nf, cmpA, tnf, cmpB);
+     if(match(cmpA,cmpB))
+     { 
+       printf(" EQAL OK\n");
+       fEqual = 1;
+       break;
+     }
+     else printf(" EQAL NOK\n");
+   }
+   
+   if(fEqual==1) fEqual=0;
+   else {if(nf==2) midVal[ idx ] = sprintf("%s", cmpA);else midVal[ idx ] = sprintf("%s,%s", midVal[ idx ], cmpA);}
+ }
+
+ n += 1;
+}END{
+for( loop = 1; loop <= idx; loop++ )
+{
+  printf("mid[%s] >> val[%s]\n", midLst[ loop ], midVal[ loop ]);
+}
+}' bluefile.txt
