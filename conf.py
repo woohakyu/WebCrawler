@@ -1,6 +1,6 @@
 # 일별 회사의 재무재표 목록을 DartApi에서 받기
 # 재무재표이면 rcp_no로 Web 읽기
-#
+# .
 
 import json
 import requests
