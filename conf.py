@@ -46,7 +46,7 @@ while(1) :
         dtRcpDt = jdic["rcp_dt"]
         vRmk = jdic["rmk"]
 
-        if sRptNm.find(r"분기보고서") != -1 :
+        if sRptNm.find("분기보고서") != -1 :
                 lstConnUrl.append("http://dart.fss.or.kr/dsaf001/main.do?rcpNo=" + nRcpNo)
         nCount+=1
         if(nCount == nTotCount) : break
