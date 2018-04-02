@@ -1,15 +1,16 @@
-# 일별 회사의 재무재표 목록을 DartApi에서 받기
-# 재무재표이면 rcp_no로 Web 읽기
-# ..
 
 import json
 import requests
+from selenium import webdriver
+from bs4 import BeautifulSoup
 
-#with open('../conf/common.json') as f:
-#	data = json.load(f)
+dicCommonConf={}
 
-#print(data['dartauthkey'])
-
+def get_common_conf():
+	with open('common.json') as f:
+		data = json.load(f)
+	dicCommonConf["dartauthkey"] = data["dartauthkey"]
+	dicCommonConf["viewer"] = data["viewer"]
 
 def connect_request(u):
 	try:
@@ -18,7 +19,8 @@ def connect_request(u):
 		print(respones.status_code)
 		return -1
 
-url = "http://dart.fss.or.kr/api/search.json?auth=d58011d7473b0d0f7bf602538ed3f17918fed9c9&crp_cd=005930&end_dt=20171114"
+get_common_conf()
+url = "http://dart.fss.or.kr/api/search.json?auth=" + dicCommonConf["dartauthkey"] + "&crp_cd=005930&end_dt=20171114"
 res = connect_request(url)
 
 json_data = res.json()
@@ -30,9 +32,11 @@ nTotCount = json_data["total_count"]
 nTotPage = json_data["total_page"]
 
 nCount = 0
+lstConnUrl = []
+
 while(1) :
         jdic = json_data["list"][nCount]
-        print(jdic)
+        print(type(jdic))
         fCrpCls = jdic["crp_cls"]
         sCrpNm = jdic["crp_nm"]
         nCrpCd = jdic["crp_cd"]
@@ -42,17 +46,18 @@ while(1) :
         dtRcpDt = jdic["rcp_dt"]
         vRmk = jdic["rmk"]
 
-        if sRptNm.find("분기보고서") != -1 :
-                conn_url = "https://dart." + nRcpNo
-                print("\n", sCrpNm, " Connect URL : ", conn_url, "")
-                print("True: ", sRptNm)
-        else :
-                print("Fail: ", sRptNm)
-        
+        if sRptNm.find(r"분기보고서") != -1 :
+                lstConnUrl.append("http://dart.fss.or.kr/dsaf001/main.do?rcpNo=" + nRcpNo)
         nCount+=1
-        print("Count Loop:", nCount)
         if(nCount == nTotCount) : break
 
+for lstadd in lstConnUrl:
+	print("\nURL Name0 [", lstadd, "]")
+	res = connect_request(lstadd)
+	print("\n", res.text)
+
+driver = webdriver.Chrome("/home/hakyu/Project/WebCrawler/chromedriver")
+# click: function() {viewDoc('20171114001694', '5845320', '13', '623020', '91917', 'dart3.xsd');}
 
 #print("\ncheck point ... 1 [", json_data, "]")
 #print("\ncheck point ... 2 [", json_data["list"], "]")
