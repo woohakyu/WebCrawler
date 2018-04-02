@@ -43,6 +43,8 @@ while(1) :
         vRmk = jdic["rmk"]
 
         if sRptNm.find("분기보고서") != -1 :
+                conn_url = "https://dart." + nRcpNo
+                print("\n", sCrpNm, " Connect URL : ", conn_url, "")
                 print("True: ", sRptNm)
         else :
                 print("Fail: ", sRptNm)
