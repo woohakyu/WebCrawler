@@ -1,7 +1,8 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
-driver = webdriver.Chrome(r"C:\Users\kfits\Downloads\chromedriver_win32\chromedriver.exe")
+#driver = webdriver.Chrome(r"C:\Users\kfits\Downloads\chromedriver_win32\chromedriver.exe")
+driver = webdriver.Chrome("/home/hakyu/Project/WebCrawler/chromedriver")
 driver.implicitly_wait(3)
 
 driver.get('https://nid.naver.com/nidlogin.login')
